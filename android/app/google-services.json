@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "503392038165",
+    "project_id": "noteappalex9",
+    "storage_bucket": "noteappalex9.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503392038165:android:229519c80d9c40c9f10d1c",
+        "android_client_info": {
+          "package_name": "com.example.createnotesalex9"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjHNCzeXla5C2l3rD6SWz1wk5f1BzF__w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
