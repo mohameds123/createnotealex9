@@ -1,8 +1,10 @@
 import 'package:createnotesalex9/core/colors_manager.dart';
+import 'package:createnotesalex9/data/note_model.dart';
 import 'package:flutter/material.dart';
 
 class NoteWidget extends StatelessWidget {
-  const NoteWidget({super.key});
+   NoteWidget({super.key, required this.note});
+  NoteModel note;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class NoteWidget extends StatelessWidget {
             SizedBox(
               height: 4,
             ),
-            Text("Meeting",style: TextStyle(
+            Text(note.headline,style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w400,
               fontSize: 14
@@ -31,13 +33,14 @@ class NoteWidget extends StatelessWidget {
             ),
             Row(
               children: [
-                Text("Apple,Orange,Banana,Guava.",style: TextStyle(
+                Text(note.description,style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
                     fontSize: 14
                 ),),
                 Spacer(),
-                Text("9:00pm",style: TextStyle(
+                Text("${note.time.hour}:${note.time.minute}${note.time.hour >= 12 ? " Pm" : " Am"}".toString(),
+                style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
                     fontSize: 14

@@ -1,7 +1,10 @@
 import 'package:createnotesalex9/core/colors_manager.dart';
 import 'package:createnotesalex9/logic/get_note/cubit.dart';
+import 'package:createnotesalex9/logic/get_note/state.dart';
 import 'package:createnotesalex9/presentation/screens/create_note_screen.dart';
+import 'package:createnotesalex9/presentation/screens/login_screen.dart';
 import 'package:createnotesalex9/presentation/widgets/note_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -48,7 +51,11 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(width: 16,),
                   Expanded(
                     child: InkWell(
-                      onTap: (){},
+                      onTap: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
+
+                      },
                       child: Container(
                         width: 164,
                         height: 48,
@@ -73,7 +80,33 @@ class HomeScreen extends StatelessWidget {
                 height: 32,
               ),
 
-              NoteWidget(),
+              BlocBuilder<GetNoteCubit,GetNotesState>(
+                builder: (context, state){
+                  if (state is GetNotesLoadingState){
+                    return Center(child: CircularProgressIndicator());
+                  }else if (state is GetNotesSuccessState){
+                    final x = state.noteModelData;
+                    return  SizedBox(
+                      height: 500,
+                      child: ListView.builder(
+                        itemCount: x.length,
+                          itemBuilder:(context, index){
+                          final y = x[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
+                            child: NoteWidget(note: y,),
+                          );
+                          }
+                      ),
+                    );
+                  }else if (state is GetNotesErrorState){
+                    return Center(child: Text(state.em));
+                  }else {
+                    return SizedBox();
+                  }
+                },
+              ),
+
             ],
           ),
         ),

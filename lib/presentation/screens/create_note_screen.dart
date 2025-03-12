@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:createnotesalex9/core/colors_manager.dart';
 import 'package:createnotesalex9/data/note_model.dart';
 import 'package:createnotesalex9/logic/create_note/cubit.dart';
@@ -5,6 +7,7 @@ import 'package:createnotesalex9/logic/create_note/state.dart';
 import 'package:createnotesalex9/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateNoteScreen extends StatefulWidget {
   CreateNoteScreen({super.key});
@@ -16,6 +19,86 @@ class CreateNoteScreen extends StatefulWidget {
 class _CreateNoteScreenScreenState extends State<CreateNoteScreen> {
   TextEditingController headLineController = TextEditingController();
   TextEditingController desController = TextEditingController();
+  XFile? selectedImage;
+
+  Future selectImage() async {
+    final ImagePicker picker = ImagePicker();
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    Navigator.pop(context);
+
+                    final XFile? image =
+                        await picker.pickImage(source: ImageSource.gallery);
+                    if (image != null) {
+                      setState(() {
+                        selectedImage = image;
+                      });
+                    }
+                  },
+                  child: Center(
+                    child: Container(
+                      width: 150,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                          child: Text(
+                        "gallery",
+                        style: TextStyle(
+                            color: ColorsManager.primaryColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16),
+                      )),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                InkWell(
+                  onTap: () async {
+                    Navigator.pop(context);
+                    final XFile? image =
+                        await picker.pickImage(source: ImageSource.camera);
+                    if (image != null) {
+                      setState(() {
+                        selectedImage = image;
+                      });
+                    }
+                  },
+                  child: Center(
+                    child: Container(
+                      width: 150,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                          child: Text(
+                        "Camera",
+                        style: TextStyle(
+                            color: ColorsManager.primaryColor,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16),
+                      )),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +209,42 @@ class _CreateNoteScreenScreenState extends State<CreateNoteScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 60,
+                      height: 16,
+                    ),
+                    if (selectedImage != null)
+                      Image.file(
+                        File(selectedImage!.path),
+                        height: 200,
+                        width: double.infinity,
+                      ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        selectImage();
+                      },
+                      child: Center(
+                        child: Container(
+                          width: 312,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.white,
+                          ),
+                          child: Center(
+                              child: Text(
+                            "Select Image",
+                            style: TextStyle(
+                                color: ColorsManager.primaryColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16),
+                          )),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16,
                     ),
                     InkWell(
                       onTap: () {
