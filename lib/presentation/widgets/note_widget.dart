@@ -10,7 +10,7 @@ class NoteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 390,
-      height: 80,
+      height:note.mediaUrl == null ? 80 : 263,
       decoration: BoxDecoration(
         color: ColorsManager.lightPurple,
         borderRadius: BorderRadius.circular(8)
@@ -48,6 +48,11 @@ class NoteWidget extends StatelessWidget {
               ],
             ),
 
+            SizedBox(
+              height: 4,
+            ),
+            if (note.mediaUrl != null)
+            Image.network(note.mediaUrl!)
           ],
         ),
       ),

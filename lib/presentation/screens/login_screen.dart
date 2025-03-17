@@ -1,6 +1,7 @@
 import 'package:createnotesalex9/core/colors_manager.dart';
 import 'package:createnotesalex9/presentation/screens/home_screen.dart';
 import 'package:createnotesalex9/presentation/screens/sign_up_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,9 +26,19 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: 60,
             ),
+            IconButton(
+                onPressed: (){
+              context.setLocale(
+                context.locale.languageCode == "en" ? const Locale("ar") : Locale("en"),
+              );
+
+            }, icon: Icon(Icons.language)),
+            SizedBox(
+              height: 16,
+            ),
             Center(
               child: Text(
-                "Hi, Welcome Back! ",
+                "Hi, Welcome Back! ".tr(),
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -39,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 32,
             ),
             Text(
-              "Email",
+              "Email".tr(),
               style: TextStyle(fontSize: 14, color: Colors.white),
             ),
             SizedBox(
@@ -72,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 16,
             ),
             Text(
-              "password",
+              "password".tr(),
               style: TextStyle(fontSize: 14, color: Colors.white),
             ),
             SizedBox(
@@ -133,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: Center(
                       child: Text(
-                    "Login",
+                    "Login".tr(),
                     style: TextStyle(
                         color: ColorsManager.primaryColor,
                         fontWeight: FontWeight.w600,
@@ -147,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Don’t have an account ? ",
+                  "Don’t have an account ? ".tr(),
                   style: TextStyle(color: Colors.white),
                 ),
                 TextButton(
@@ -155,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> SignUpScreen()));
                     },
                     child: Text(
-                      "Sign Up",
+                      "Sign Up".tr(),
                       style: TextStyle(color: Colors.white),
                     ))
               ],

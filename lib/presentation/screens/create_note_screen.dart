@@ -5,6 +5,7 @@ import 'package:createnotesalex9/data/note_model.dart';
 import 'package:createnotesalex9/logic/create_note/cubit.dart';
 import 'package:createnotesalex9/logic/create_note/state.dart';
 import 'package:createnotesalex9/presentation/screens/home_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -98,6 +99,19 @@ class _CreateNoteScreenScreenState extends State<CreateNoteScreen> {
             ),
           );
         });
+  }
+
+  Future<String?> uploadDate(XFile media) async {
+    try {
+      //1- upload location
+      final x = FirebaseStorage.instance.ref().child("flutteralex9/");
+      //2- uploading
+      await x.putFile(File(media.path));
+      //3- upload url
+      return await x.getDownloadURL();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -247,11 +261,26 @@ class _CreateNoteScreenScreenState extends State<CreateNoteScreen> {
                       height: 16,
                     ),
                     InkWell(
-                      onTap: () {
-                        context.read<CreateNoteCubit>().createNote(NoteModel(
-                            headline: headLineController.text,
-                            description: desController.text,
-                            time: DateTime.now()));
+                      onTap: () async{
+                        if (selectedImage != null) {
+                          final imageUrl = await uploadDate(selectedImage!);
+                          context.read<CreateNoteCubit>().createNote(
+                                NoteModel(
+                                  headline: headLineController.text,
+                                  description: desController.text,
+                                  time: DateTime.now(),
+                                  mediaUrl: imageUrl,
+                                ),
+                              );
+                        }else{
+                          context.read<CreateNoteCubit>().createNote(
+                            NoteModel(
+                              headline: headLineController.text,
+                              description: desController.text,
+                              time: DateTime.now(),
+                            ),
+                          );
+                        }
                       },
                       child: Center(
                         child: Container(
