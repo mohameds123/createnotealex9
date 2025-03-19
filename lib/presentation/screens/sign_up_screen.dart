@@ -192,6 +192,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  InkWell(
+                    onTap: (){
+                      context.read<SignUpCubit>().googleSignUp();
+
+                    },
+                    child: Center(
+                      child: Container(
+                        width: 312,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.white,
+
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset("assets/logos/Google.png",width: 28,height: 28,),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text("Sign up with google",style: TextStyle(
+
+                                color: ColorsManager.primaryColor,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16
+                            ),),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
 
                 ],
               ),

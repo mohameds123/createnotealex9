@@ -17,4 +17,19 @@ class SignUpCubit extends Cubit <SignUpStates>{
      emit(SignUpErrorState(e.toString()));
    }
  }
+ // sign up with google
+Future googleSignUp()async{
+   emit(SignUpLoadingState());
+   try{
+
+     final googleProvider = GoogleAuthProvider();
+     await firebaseAuth.signInWithProvider(googleProvider);
+     emit(SignUpSuccessState());
+
+   }catch(e){
+     print("GoogleError>>>>>>$e");
+     emit(SignUpErrorState(e.toString()));
+
+   }
+}
 }
